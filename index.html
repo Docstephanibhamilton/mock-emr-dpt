@@ -105,9 +105,11 @@
                 <p id="pt3-cc" class="text-sm text-gray-600 mt-1 truncate italic">Loading...</p>
             </button>
         </div>
-        <div class="p-4 bg-gray-50 text-xs text-gray-600 border-t border-gray-200 text-center flex flex-col gap-2">
+        <div class="p-4 bg-gray-50 text-xs text-gray-600 border-t border-gray-200 text-center flex flex-col gap-3">
             <span>Logged in as: DPT Student</span>
-            <button type="button" onclick="window.clearFormAndRegenerate(event)" class="text-[#8a1538] hover:underline font-bold focus:ring-2 focus:ring-[#8a1538] rounded px-1">Generate New Cases</button>
+            <button type="button" onclick="window.clearFormAndRegenerate(event)" class="w-full bg-[#8a1538] hover:bg-red-900 text-white font-bold py-2 px-4 rounded shadow transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-[#8a1538]">
+                Generate New Cases
+            </button>
         </div>
     </aside>
 
@@ -179,6 +181,16 @@
                     </div>
 
                     <div class="section">
+                        <h2 class="section-title">Diagnostics & Radiology</h2>
+                        <div id="rad-container" class="mt-2">
+                            <div class="mb-2">
+                                <label for="rad-report">Radiology Report:</label>
+                                <textarea id="rad-report" name="rad_report" readonly class="bg-gray-100 text-gray-700 min-h-[80px] p-3 border border-gray-300 rounded w-full"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
                         <h2 class="section-title">Objective Observation & Status</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div><label for="pain_scale">Pain (0-10):</label> <input id="pain_scale" name="pain_scale" type="text" placeholder="Rest/Activity" /></div>
@@ -198,6 +210,12 @@
                                 <tr><td>Wrist/Ankle</td><td><input type="text" name="rom_dist" aria-label="Wrist or Ankle ROM"></td><td><input type="text" name="mmt_dist" aria-label="Wrist or Ankle MMT"></td></tr>
                             </tbody>
                         </table>
+                        
+                        <div class="mt-6 border-t border-gray-200 pt-4">
+                            <label for="other_objective_tests" class="block text-gray-800 font-bold mb-1">Other Objective Tests & Measures:</label>
+                            <p class="text-sm text-gray-500 mb-2">Use this area to document special tests, balance scales (e.g. Berg, TUG), outcome measures, or other clinical observations.</p>
+                            <textarea id="other_objective_tests" name="other_objective_tests" class="w-full p-3 border border-gray-300 rounded min-h-[100px]" placeholder="e.g., Anterior Drawer Test: Positive. TUG Score: 14 seconds..."></textarea>
+                        </div>
                     </div>
 
                     <div class="section">
@@ -235,7 +253,7 @@
                         </div>
                         <div class="hidden print:block mb-4"><label for="assessment-print-textarea">Assessment:</label><textarea id="assessment-print-textarea" class="w-full min-h-[100px]"></textarea></div>
 
-                        <h3 class="font-bold mt-6 text-gray-800 border-b pb-2">Short Term Goals <span class="font-normal text-sm ml-2">(Target Days:) <input type="number" name="stg_days" aria-label="STG Target Days" class="inline-block w-16 px-1 py-0.5 border rounded border-gray-300"></span></h3>
+                        <h3 class="font-bold mt-6 text-gray-800 border-b pb-2">Short Term Goals <span class="font-normal text-sm ml-2">(Target Days: <input type="number" name="stg_days" aria-label="STG Target Days" class="inline-block w-16 px-1 py-0.5 border rounded border-gray-300">)</span></h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                             <div class="flex flex-col"><label for="goal_supine_sit" class="text-sm text-gray-700">1. Supine to Sit</label><select id="goal_supine_sit" name="goal_supine_sit" class="mt-1"><option value="">--Assist--</option><option value="IND">IND</option><option value="SBA">SBA</option><option value="CGA">CGA</option><option value="MIN">MIN</option></select></div>
                             <div class="flex flex-col"><label for="goal_sit_stand" class="text-sm text-gray-700">2. Sit to Stand</label><select id="goal_sit_stand" name="goal_sit_stand" class="mt-1"><option value="">--Assist--</option><option value="IND">IND</option><option value="SBA">SBA</option><option value="CGA">CGA</option><option value="MIN">MIN</option></select></div>
@@ -246,18 +264,22 @@
                         </div>
                     </div>
 
-                    <div class="section">
-                        <h2 class="section-title">Discharge Planning & Attestation</h2>
+                    <div id="discharge-section" class="section">
+                        <h2 class="section-title">Prognosis & Discharge Planning</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div><label for="rehab_potential">Rehab Potential:</label>
                                 <select id="rehab_potential" name="rehab_potential"><option value="">--Select--</option><option value="Excellent">Excellent</option><option value="Good">Good</option><option value="Fair">Fair</option><option value="Poor">Poor</option></select>
                             </div>
-                            <div><label for="dc_disposition">Recommended Disposition:</label>
+                            <div><label for="freq_duration">Frequency & Duration:</label> <input id="freq_duration" type="text" name="freq_duration" placeholder="e.g., 3x/wk for 4 weeks" /></div>
+                            <div class="md:col-span-2"><label for="dc_disposition">Recommended Disposition:</label>
                                 <select id="dc_disposition" name="dc_disposition"><option value="">--Select--</option><option value="Home">Home</option><option value="Home w/Assist">Home w/ Family Assist</option><option value="HHPT">Home with HHPT</option><option value="IRF">Inpatient Rehab</option><option value="SNF">SNF</option></select>
                             </div>
                         </div>
-                        
-                        <div class="mt-6 border-t pt-4">
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Signature & Attestation</h2>
+                        <div class="mt-2">
                             <label class="checkbox-group mb-2"><input type="checkbox" name="attest_agree"> Patient agrees to the above plan of care.</label>
                             
                             <label for="pt_signature" class="mt-4 block">Evaluating PT Signature (SPT):</label>
@@ -274,26 +296,29 @@
     </main>
 
     <script>
-        // --- DYNAMIC PT CASE BANK (with AI DDX and Guardrails) ---
+        // --- DYNAMIC PT CASE BANK ---
         const caseBank = {
             outpatient: [
                 { 
                     cc: 'Eval and Treat s/p L ACL Reconstruction', 
                     mockAiHpi: "Patient is a 19yo female presenting for initial PT eval following a left ACL reconstruction with hamstring autograft 14 days ago. Pain ranges 3/10 at rest to 7/10 during HEP. Using bilateral axillary crutches and hinged knee brace locked in extension.",
                     mockAiDdx: "Primary Impairments: \n1. Decreased L knee AROM/PROM\n2. Quadriceps inhibition/atrophy\n3. Impaired gait and balance\n\nPT Diagnosis: Impaired joint mobility, muscle performance, and gait associated with connective tissue surgery.",
-                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient is s/p hamstring autograft. Avoid isolated, resisted open-chain hamstring curls for at least 6-8 weeks to protect the harvest site."
+                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient is s/p hamstring autograft. Avoid isolated, resisted open-chain hamstring curls for at least 6-8 weeks to protect the harvest site.",
+                    radReport: "MRI Left Knee (Pre-Op): Complete full-thickness tear of the anterior cruciate ligament. Medial and lateral menisci appear intact."
                 },
                 { 
                     cc: 'Right shoulder pain', 
                     mockAiHpi: "Patient is a 19-year-old female volleyball player presenting with insidious onset of right anterior shoulder pain over the past 3 weeks. Pain is described as a 'deep ache' that becomes sharp during overhead serving and spiking. Rest and ice provide temporary relief. Her goal is to play in the regional tournament next month without pain.",
                     mockAiDdx: "Primary Impairments: \n1. Scapular dyskinesia\n2. Weakness of RTC musculature\n3. Positive impingement signs\n\nPT Diagnosis: Impaired joint mobility and muscle performance associated with localized inflammation.",
-                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient is a throwing athlete with anterior shoulder pain. Ensure you assess glenohumeral internal rotation deficit (GIRD) as a potential contributing factor."
+                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient is a throwing athlete with anterior shoulder pain. Ensure you assess glenohumeral internal rotation deficit (GIRD) as a potential contributing factor.",
+                    radReport: "XR Right Shoulder: No acute fracture or dislocation. Glenohumeral joint space is preserved. No calcific tendinosis appreciated. \n\nMRI Right Shoulder without contrast (Pending): Indicated for suspected rotator cuff tendinopathy or labral pathology."
                 },
                 { 
                     cc: 'Chronic Lower Back Pain', 
                     mockAiHpi: "Patient is a 19-year-old female presenting with chronic, intermittent lower back pain that has worsened since starting college 6 months ago. Pain is localized to the lower lumbar spine bilaterally, non-radiating, and described as 'tightness and burning'. It is severely aggravated by sitting in lecture halls for >45 minutes.",
                     mockAiDdx: "Primary Impairments: \n1. Poor postural awareness/control\n2. Decreased core endurance\n3. Hamstring/hip flexor tightness\n\nPT Diagnosis: Impaired posture and muscle performance associated with musculoskeletal anomalies.",
-                    mockGuardrail: "⚠️ AI SAFETY ALERT: Ensure red flags for back pain (saddle anesthesia, bowel/bladder incontinence) have been formally ruled out and documented before proceeding with treatment."
+                    mockGuardrail: "⚠️ AI SAFETY ALERT: Ensure red flags for back pain (saddle anesthesia, bowel/bladder incontinence) have been formally ruled out and documented before proceeding with treatment.",
+                    radReport: "XR Lumbar Spine (AP and Lateral): Normal alignment. No evidence of spondylolysis or spondylolisthesis. Vertebral body heights are maintained. Intervertebral disc spaces appear normal."
                 }
             ],
             neuro: [
@@ -301,19 +326,22 @@
                     cc: 'PT Eval for acute Left MCA CVA', 
                     mockAiHpi: "72yo male admitted to inpatient rehab 3 days ago following acute Left MCA ischemic stroke. Presents with dense right-sided hemiparesis and expressive aphasia. Requires max assist for bed mobility. Prior to admission, lived in a 2-story home, Independent ADLs.",
                     mockAiDdx: "Primary Impairments:\n1. Right-sided hemiplegia (UE > LE)\n2. Impaired postural control/balance\n3. Right shoulder subluxation risk\n\nPT Diagnosis: Impaired motor function and sensory integrity associated with nonprogressive disorders of the CNS.",
-                    mockGuardrail: "⚠️ AI SAFETY ALERT: Patient has high risk for R shoulder subluxation due to flaccidity. Ensure proper positioning in wheelchair (lap tray/trough) and avoid pulling on the affected arm during transfers."
+                    mockGuardrail: "⚠️ AI SAFETY ALERT: Patient has high risk for R shoulder subluxation due to flaccidity. Ensure proper positioning in wheelchair (lap tray/trough) and avoid pulling on the affected arm during transfers.",
+                    radReport: "CT Head without Contrast: Large hypodense region in the territory of the left middle cerebral artery consistent with an acute ischemic infarct."
                 },
                 { 
                     cc: 'Frequent falls and gait instability', 
                     mockAiHpi: "Patient is a 72-year-old male with a 5-year history of Parkinson's Disease, admitted after a fall at home resulting in a minor scalp laceration. He reports increasing difficulty initiating movement and a feeling that his 'feet are glued to the floor' (freezing of gait). He has had 3 falls in the past month.",
                     mockAiDdx: "Primary Impairments:\n1. Bradykinesia and freezing of gait (FOG)\n2. Impaired reactive balance\n3. Decreased trunk rotation\n\nPT Diagnosis: Impaired motor function and balance associated with progressive CNS disorder.",
-                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient presents with freezing of gait. Consider implementing external cues (visual targets on floor, rhythmic auditory cueing) into the plan of care to improve step length and initiation."
+                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient presents with freezing of gait. Consider implementing external cues (visual targets on floor, rhythmic auditory cueing) into the plan of care to improve step length and initiation.",
+                    radReport: "CT Head without Contrast (Post-Fall protocol): No acute intracranial hemorrhage. No midline shift. Mild diffuse cortical atrophy and periventricular white matter changes expected for age."
                 },
                 { 
                     cc: 'Progressive bilateral LE weakness', 
                     mockAiHpi: "Patient is a 72-year-old male admitted to acute neurology 4 days ago with rapidly ascending bilateral lower extremity weakness and paresthesia, diagnosed with Guillain-Barré Syndrome (GBS). He is currently medically stable and receiving IVIG therapy. He is unable to stand independently.",
                     mockAiDdx: "Primary Impairments:\n1. Severe bilateral LE paresis\n2. Diminished deep tendon reflexes\n3. Decreased functional mobility (DEP for transfers)\n\nPT Diagnosis: Impaired motor function and peripheral nerve integrity.",
-                    mockGuardrail: "⚠️ AI SAFETY ALERT: In acute phase of Guillain-Barré Syndrome, overworking partially denervated muscle fibers can delay recovery. Therapy must be low-intensity and focus on ROM, positioning, and avoiding fatigue."
+                    mockGuardrail: "⚠️ AI SAFETY ALERT: In acute phase of Guillain-Barré Syndrome, overworking partially denervated muscle fibers can delay recovery. Therapy must be low-intensity and focus on ROM, positioning, and avoiding fatigue.",
+                    radReport: "MRI Lumbar Spine w/ & w/o contrast: Diffuse enhancement of the cauda equina nerve roots, strongly supportive of a demyelinating polyneuropathy such as Guillain-Barré syndrome."
                 }
             ],
             acute: [
@@ -321,19 +349,22 @@
                     cc: 'Eval and Treat s/p R Total Hip Arthroplasty', 
                     mockAiHpi: "85yo female, Post-Op Day 2 following a Right Total Hip Arthroplasty (posterior approach) due to severe osteoarthritis. Reports surgical site pain at 5/10 at rest, increasing to 8/10 with movement. Complains of dizziness when moving from supine to sit. She successfully stood with nursing this morning using a standard walker.",
                     mockAiDdx: "Primary Impairments:\n1. Decreased R hip ROM and strength\n2. Impaired functional mobility\n3. Post-surgical pain/edema\n\nPT Diagnosis: Impaired joint mobility and muscle performance associated with arthroplasty.",
-                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient had a posterior approach THA. Ensure adherence to hip precautions (No hip flexion >90°, no adduction past midline, no internal rotation) during all mobility and exercise."
+                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient had a posterior approach THA. Ensure adherence to hip precautions (No hip flexion >90°, no adduction past midline, no internal rotation) during all mobility and exercise.",
+                    radReport: "XR Pelvis AP (Post-Op): Right total hip arthroplasty components are in appropriate alignment. No evidence of periprosthetic fracture."
                 },
                 { 
                     cc: 'Severe generalized weakness and debility', 
                     mockAiHpi: "Patient is an 85-year-old female admitted 6 days ago for severe Community-Acquired Pneumonia and sepsis. She is now medically stable, off supplemental oxygen, and cleared for therapy. She presents with profound generalized weakness, fatigue, and orthostatic intolerance after prolonged bed rest.",
                     mockAiDdx: "Primary Impairments:\n1. Decreased aerobic capacity/endurance\n2. Generalized muscle weakness (ICU Acquired Weakness)\n3. Orthostatic hypotension\n\nPT Diagnosis: Impaired aerobic capacity and muscle performance associated with cardiovascular pump dysfunction or failure.",
-                    mockGuardrail: "⚠️ AI SAFETY ALERT: Monitor vital signs closely (HR, BP, SpO2) before, during, and after mobility. Watch for signs of orthostatic hypotension when transitioning from supine to sit to stand."
+                    mockGuardrail: "⚠️ AI SAFETY ALERT: Monitor vital signs closely (HR, BP, SpO2) before, during, and after mobility. Watch for signs of orthostatic hypotension when transitioning from supine to sit to stand.",
+                    radReport: "XR Chest PA/Lateral: Improved aeration of the right lower lobe compared to prior study. Mild residual patchy opacities in the right base consistent with resolving pneumonia. No pleural effusion or pneumothorax."
                 },
                 { 
                     cc: 'Acute Lumbar Compression Fracture', 
                     mockAiHpi: "85yo female admitted yesterday with acute L2 compression fracture. Reports severe, sharp mid-to-lower back pain (9/10). Wearing custom TLSO brace but fearful to move in bed. Denies radiating leg pain.",
                     mockAiDdx: "Primary Impairments:\n1. Acute mechanical low back pain\n2. Impaired bed mobility and transfers\n3. Decreased activity tolerance\n\nPT Diagnosis: Impaired posture, joint mobility, and muscle performance associated with spinal fracture.",
-                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient has an acute spinal fracture. Ensure strict adherence to BLT precautions (No Bending, Lifting, Twisting). Educate on log-rolling technique for bed mobility."
+                    mockGuardrail: "⚠️ AI CLINICAL CHECK: Patient has an acute spinal fracture. Ensure strict adherence to BLT precautions (No Bending, Lifting, Twisting). Educate on log-rolling technique for bed mobility.",
+                    radReport: "XR Lumbar Spine: Acute wedge compression fracture of the L2 vertebral body. Severe diffuse osteopenia."
                 }
             ]
         };
@@ -393,6 +424,21 @@
             
             const dob = new Date(pt.dob);
             document.getElementById('patient-age').value = Math.floor((new Date() - dob) / 31557600000);
+
+            // Radiology Update
+            const radReportField = document.getElementById('rad-report');
+            if(radReportField) radReportField.value = pt.radReport || "No recent imaging available.";
+            
+            // Discharge Section Visibility Update
+            const dischargeSection = document.getElementById('discharge-section');
+            if(dischargeSection) {
+                if(pt.type === 'neuro' || pt.type === 'acute') {
+                    dischargeSection.classList.remove('hidden');
+                } else {
+                    // Outpatient
+                    dischargeSection.classList.add('hidden');
+                }
+            }
         };
 
         // --- AI FEATURES ---
